@@ -71,7 +71,7 @@ TakToe class >> menuPlay [
 		
 	menu addItem:
 		((ToButtonMenuItem new labelText: 'Small') whenClickedDo: [
-			 MFieldElement launchSmall ]).
+			 TakFieldElement launchSmall ]).
 	menu addItem:
 		((ToButtonMenuItem new labelText: 'Regular') whenClickedDo: [
 			 MFieldElement launchRegular ]).

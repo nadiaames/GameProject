@@ -3,8 +3,7 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'box',
-		'field',
-		'text'
+		'board'
 	],
 	#classVars : [
 		'Icons'
