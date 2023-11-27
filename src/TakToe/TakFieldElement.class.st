@@ -8,13 +8,32 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+TakFieldElement class >> launchLarge [
+	^ self withMatrixTest5x5WithMagnifier: 2
+]
+
+{ #category : #'as yet unclassified' }
+TakFieldElement class >> launchRegular [
+	^ self withMatrixTest5x5 
+]
+
+{ #category : #'as yet unclassified' }
 TakFieldElement class >> launchSmall [
 	^ self withMatrixTest5x5WithMagnifier: 0.5
 ]
 
 { #category : #'as yet unclassified' }
-TakFieldElement class >> openWithModel: aModel withMagnifier: aNumber [
+TakFieldElement class >> launchVeryLarge [
+	^ self withMatrixTest5x5WithMagnifier: 4
+]
 
+{ #category : #'as yet unclassified' }
+TakFieldElement class >> openWithModel: aModel [
+	^ self openWithModel: aModel withMagnifier: 1
+]
+
+{ #category : #'as yet unclassified' }
+TakFieldElement class >> openWithModel: aModel withMagnifier: aNumber [
 	| aGameElement space |
 	space := BlSpace new.
 	"Create the game model and the Bloc element."
@@ -34,6 +53,11 @@ TakFieldElement class >> openWithModel: aModel withMagnifier: aNumber [
 	^ space
 ]
 
+{ #category : #'as yet unclassified' }
+TakFieldElement class >> withMatrixTest5x5 [
+	^ self openWithModel: TakBoard matrixTest5x5
+]
+
 { #category : #execution }
 TakFieldElement class >> withMatrixTest5x5WithMagnifier: aNumber [
 
@@ -49,12 +73,22 @@ TakFieldElement >> game [
 TakFieldElement >> game: aTField [
 
 	game := aTField.
-	self padding: (BlInsets all: 5 * game magnifier).
+	self padding: (BlInsets all: 9 * game magnifier).
 	self layout columnCount: game width.
 	game grid do: [ :aBox |
 		| boxElement |
-		boxElement := (MBoxElement createWithBox: aBox)
+		boxElement := (TakBoxElement createWithBox: aBox)
 			              field: aTField;
 			              positionInField: aBox position.
 		self addChild: boxElement ]
+]
+
+{ #category : #initialization }
+TakFieldElement >> initialize [
+	super initialize.
+	self background: (BlBackground paint: Color veryVeryLightGray).
+	self layout: (BlGridLayout horizontal cellSpacing: 5).
+	self constraintsDo: [ :aLayoutConstraints |
+		aLayoutConstraints horizontal fitContent.
+		aLayoutConstraints vertical fitContent ]
 ]

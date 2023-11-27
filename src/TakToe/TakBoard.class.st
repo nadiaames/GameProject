@@ -1,7 +1,10 @@
 Class {
 	#name : #TakBoard,
 	#superclass : #MygBoard,
-	#category : #'TakToe-UI'
+	#instVars : [
+		'magnifier'
+	],
+	#category : #'TakToe-Core'
 }
 
 { #category : #'instance creation' }
@@ -31,4 +34,19 @@ TakBoard class >> matrixTest5x5 [
 	^ self createWithMatrix:
 		  (CTNewArray2D width: 3 height: 3 tabulate: [ :column :row |
 			   MBox randomCase ])
+]
+
+{ #category : #accessing }
+TakBoard >> magnifier [ 
+	^ magnifier
+]
+
+{ #category : #accessing }
+TakBoard >> magnifier: aNumber [
+	magnifier := aNumber 
+]
+
+{ #category : #accessing }
+TakBoard >> width [
+	^ grid width
 ]

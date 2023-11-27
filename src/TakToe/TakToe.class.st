@@ -27,21 +27,20 @@ TakToe class >> menuHelp [
 		(ToImage inner: (Smalltalk ui icons iconNamed: #glamorousHelp)).
 	menu whenClickedDo: [
 		| container lab space |
-		lab := ToLabel text: 'How to play:
-		 
-The TakToe Game is a famous game where you need to clear a field without touching any bomb.
+		lab := ToLabel text: 'Welcome to TakToe, the fusion of Takuzu and Tic Tac Toe, where strategy meets simplicity in this unique and engaging game! 
 
-- You can click on a cell to uncover it and reveal the number of bombs around this cell.
-- Right-click on a cell to flag it and avoid clicking on it, right-click again to unflag.
-- When you flagged as many neighbouring cells as bombs around a cell, you can click on this cell to uncover all unflagged neighbouring cells.
-			
-The game ends when you have cleared all safe cells.
-			
-Have fun !'.
+How to play:
+
+In this thrilling game, you''ll be engaging in a strategic showdown of wits as you strive to align three of your chosen color—either vibrant Orange or bold Black—along the 3x3 grid. 
+Each turn is an opportunity to strategically place your colored token in an empty cell, aiming to create a winning combination either horizontally, vertically, or diagonally. Be on the lookout for potential victories and cleverly block your opponent''s path to triumph. 
+The game concludes with the declaration of the winner, the master of color alignment. 
+
+Enjoy the game!
+'.
 		lab beMultiLine.
-		lab hMatchParent.
+		lab hMatchParent.				
 		container := BlElement new
-			             background: Color lightGreen;
+			             background: Color lightGray;
 			             padding: (BlInsets all: 15);
 			             layout: BlLinearLayout vertical;
 			             constraintsDo: [ :c |
@@ -67,20 +66,20 @@ TakToe class >> menuPlay [
 	menu := ToMenu new.
 	menu label: (ToLabel text:'  Play').
 	menu icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		(ToImage inner: (Smalltalk ui icons iconNamed: #smallDoIt)).
 		
 	menu addItem:
 		((ToButtonMenuItem new labelText: 'Small') whenClickedDo: [
 			 TakFieldElement launchSmall ]).
 	menu addItem:
 		((ToButtonMenuItem new labelText: 'Regular') whenClickedDo: [
-			 MFieldElement launchRegular ]).
+			 TakFieldElement launchRegular ]).
 	menu addItem:
 		((ToButtonMenuItem new labelText: 'Large') whenClickedDo: [
-			 MFieldElement launchLarge ]).
+			 TakFieldElement launchLarge ]).
 	menu addItem:
 		((ToButtonMenuItem new labelText: 'Very Large') whenClickedDo: [
-			 MFieldElement launchVeryLarge ]).
+			 TakFieldElement launchVeryLarge ]).
 		
 	^ menu
 	
@@ -102,7 +101,6 @@ TakToe class >> open [
 
 	space := BlSpace new.
 
-
 	space root addChild: title.
 	space root addChild: bar.
 	space extent: 300 @ 300.
@@ -113,14 +111,14 @@ TakToe class >> open [
 TakToe class >> title [
 
 	| title  |
-	title := BlElement new background: Color darkGray  .
+	title := BlElement new background: Color orange.
 	title constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
 	title layout: BlFrameLayout new.
 	title addChild: ((BlTextElement new text: ('TakToe' asRopedText
-				   fontName: 'Phosphate';
-				   foreground: Color white;
+				   fontName: 'Source Code Pro';
+				   foreground: Color black; bold;
 				   fontSize: 70)) constraintsDo: [ :c |
 			 c frame horizontal alignCenter.
 			 c frame vertical alignCenter ]).
