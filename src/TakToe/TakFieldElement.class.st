@@ -2,93 +2,99 @@ Class {
 	#name : #TakFieldElement,
 	#superclass : #BlElement,
 	#instVars : [
-		'game'
+		'board'
 	],
 	#category : #'TakToe-UI'
 }
 
 { #category : #'as yet unclassified' }
 TakFieldElement class >> launchLarge [
-	^ self withMatrixTest5x5WithMagnifier: 2
+	^ self openWithModelLarge: (TakBoard generateWithSize: 3)
 ]
 
 { #category : #'as yet unclassified' }
 TakFieldElement class >> launchRegular [
-	^ self withMatrixTest5x5 
+	^ self openWithModelRegular: (TakBoard generateWithSize: 3)
 ]
 
 { #category : #'as yet unclassified' }
 TakFieldElement class >> launchSmall [
-	^ self withMatrixTest5x5WithMagnifier: 0.5
+
+	^ self openWithModelSmall: (TakBoard generateWithSize: 3)
 ]
 
 { #category : #'as yet unclassified' }
-TakFieldElement class >> launchVeryLarge [
-	^ self withMatrixTest5x5WithMagnifier: 4
-]
+TakFieldElement class >> openWithModelLarge: aTField [
 
-{ #category : #'as yet unclassified' }
-TakFieldElement class >> openWithModel: aModel [
-	^ self openWithModel: aModel withMagnifier: 1
-]
-
-{ #category : #'as yet unclassified' }
-TakFieldElement class >> openWithModel: aModel withMagnifier: aNumber [
-	| aGameElement space |
+	| aFieldElement space |
 	space := BlSpace new.
-	"Create the game model and the Bloc element."
-	aGameElement := self new
-		                game: (aModel magnifier: aNumber);
-		                yourself.
-
-	"The space represents the window"
-
-	space root addChild: aGameElement.
-
-	"Calculate the extent of the game board for the first time, to set it to the window."
-	space pulse.
-	space extent: aGameElement extent.
-	space resizable: false.
-	space show.
-	^ space
+	aFieldElement := self new
+		                 board: aTField;
+		                 yourself.
+	space root addChild: aFieldElement.
+	space pulse
+		extent: 700 @ 700;
+		resizable: false;
+		show
 ]
 
 { #category : #'as yet unclassified' }
-TakFieldElement class >> withMatrixTest5x5 [
-	^ self openWithModel: TakBoard matrixTest5x5
+TakFieldElement class >> openWithModelRegular: aTField [
+
+	| aFieldElement space |
+	space := BlSpace new.
+	aFieldElement := self new
+		                 board: aTField;
+		                 yourself.
+	space root addChild: aFieldElement.
+	space pulse
+		extent: 500 @ 500;
+		resizable: false;
+		show
 ]
 
-{ #category : #execution }
-TakFieldElement class >> withMatrixTest5x5WithMagnifier: aNumber [
+{ #category : #'as yet unclassified' }
+TakFieldElement class >> openWithModelSmall: aTField [
 
-	^ self openWithModel: TakBoard matrixTest5x5 withMagnifier: aNumber 
+	| aFieldElement space |
+	space := BlSpace new.
+	aFieldElement := self new
+		                 board: aTField;
+		                 yourself.
+	space root addChild: aFieldElement.
+	space pulse
+		extent: 200 @ 200;
+		resizable: false;
+		show
 ]
 
 { #category : #accessing }
-TakFieldElement >> game [ 
-	^ game
+TakFieldElement >> board [
+
+	^ board
 ]
 
 { #category : #accessing }
-TakFieldElement >> game: aTField [
+TakFieldElement >> board: aTBoard [
 
-	game := aTField.
-	self padding: (BlInsets all: 9 * game magnifier).
-	self layout columnCount: game width.
-	game grid do: [ :aBox |
+	board := aTBoard.
+	self layout:
+		(BlGridLayout horizontal cellSpacing: 5 - (board grid width // 5)).
+	self constraintsDo: [ :aLayoutConstraints |
+		aLayoutConstraints horizontal matchParent.
+		aLayoutConstraints vertical matchParent ].
+	self padding: (BlInsets all: 5).
+	self layout columnCount: board grid width.
+	board grid do: [ :aBox |
 		| boxElement |
-		boxElement := (TakBoxElement createWithBox: aBox)
-			              field: aTField;
-			              positionInField: aBox position.
+		boxElement := (TBoxElement box: aBox) board: aTBoard.
 		self addChild: boxElement ]
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 TakFieldElement >> initialize [
+
 	super initialize.
-	self background: (BlBackground paint: Color veryVeryLightGray).
-	self layout: (BlGridLayout horizontal cellSpacing: 5).
-	self constraintsDo: [ :aLayoutConstraints |
-		aLayoutConstraints horizontal fitContent.
-		aLayoutConstraints vertical fitContent ]
+	self background: (BlBackground paint: Color veryVeryDarkGray).
+	
 ]

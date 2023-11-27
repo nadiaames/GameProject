@@ -77,9 +77,6 @@ TakToe class >> menuPlay [
 	menu addItem:
 		((ToButtonMenuItem new labelText: 'Large') whenClickedDo: [
 			 TakFieldElement launchLarge ]).
-	menu addItem:
-		((ToButtonMenuItem new labelText: 'Very Large') whenClickedDo: [
-			 TakFieldElement launchVeryLarge ]).
 		
 	^ menu
 	

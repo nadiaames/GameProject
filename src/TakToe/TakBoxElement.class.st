@@ -3,19 +3,34 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'box',
-		'board',
-		'field',
-		'positionInField'
+		'board'
 	],
 	#classVars : [
-		'Icons'
+		'ColorDictionary',
+		'icons'
 	],
 	#category : #'TakToe-UI'
 }
 
+{ #category : #'class initialization' }
+TakBoxElement class >> initialize [ 
+
+	ColorDictionary := { 0 -> Color orange.
+	1 -> Color black.
+	nil -> Color lightGray } asDictionary 
+
+]
+
 { #category : #accessing }
-TakBoxElement class >> createWithBox: aTBox [
-	^ self new box: aTBox
+TakBoxElement >> board [
+
+	^ board
+]
+
+{ #category : #accessing }
+TakBoxElement >> board: aTBoard [
+
+	board := aTBoard
 ]
 
 { #category : #accessing }
@@ -29,23 +44,15 @@ TakBoxElement >> box: aTBox [
 
 ]
 
-{ #category : #accessing }
-TakBoxElement >> field [ 
-	^field 
+{ #category : #public }
+TakBoxElement >> click [
+	self box isTakEmptyBox 
+		ifTrue: [  ]
+		ifFalse: [  ]
 ]
 
-{ #category : #accessing }
-TakBoxElement >> field: aTField [
-	field:= aTField.
-	self size: (75@75) * aTField magnifier.
-]
+{ #category : #'as yet unclassified' }
+TakBoxElement >> colorDictionary [
 
-{ #category : #accessing }
-TakBoxElement >> positionInField [ 
-	^ positionInField 
-]
-
-{ #category : #accessing }
-TakBoxElement >> positionInField: aPoint [
-	positionInField := aPoint 
+	^ ColorDictionary
 ]
