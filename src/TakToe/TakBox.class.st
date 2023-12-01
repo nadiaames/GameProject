@@ -25,11 +25,6 @@ TakBox class >> valueDictionary [
 	^ ValueDictionary 
 ]
 
-{ #category : #public }
-TakBox >> click [
-	self subclassResponsibility
-]
-
 { #category : #accessing }
 TakBox >> configureValue [
 	

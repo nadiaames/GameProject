@@ -95,6 +95,6 @@ TakFieldElement >> board: aTBoard [
 TakFieldElement >> initialize [
 
 	super initialize.
-	self background: (BlBackground paint: Color veryVeryDarkGray).
+	self background: (BlBackground paint: Color veryVeryLightGray ).
 	
 ]

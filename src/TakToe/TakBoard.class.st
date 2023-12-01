@@ -34,7 +34,7 @@ TakBoard class >> newSquaredSize: aNumber [
 		  configureGrid: (CTNewArray2D
 				   width: aNumber
 				   height: aNumber
-				   tabulate: [ :x :y | TakEmptyBox new])
+				   tabulate: [ :x :y | TakSetBox1  new])
 ]
 
 { #category : #testing }
@@ -51,7 +51,8 @@ TakBoard >> clickOnBox: aTBox [
 	box := self grid atColumn: aTBox position x atRow: aTBox position y.
 
 	box configureValue.
-	self checkIfFinished
+	self checkIfFinished.
+	
 ]
 
 { #category : #actions }

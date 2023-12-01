@@ -15,7 +15,7 @@ Class {
 { #category : #'class initialization' }
 TakBoxElement class >> initialize [ 
 
-	ColorDictionary := { 0 -> Color orange.
+	ColorDictionary := { 0 -> Color red.
 	1 -> Color black.
 	nil -> Color lightGray } asDictionary 
 
@@ -45,7 +45,7 @@ TakBoxElement >> box: aTBox [
 ]
 
 { #category : #public }
-TakBoxElement >> click [
+TakBoxElement >> clickbox [
 	self box isTakEmptyBox 
 		ifTrue: [  ]
 		ifFalse: [  ]
@@ -55,4 +55,16 @@ TakBoxElement >> click [
 TakBoxElement >> colorDictionary [
 
 	^ ColorDictionary
+]
+
+{ #category : #public }
+TakBoxElement >> initialize [
+	super initialize.
+	
+	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
+	self constraintsDo: [ :aLayoutConstraints |
+		aLayoutConstraints horizontal matchParent.
+		aLayoutConstraints vertical matchParent ].
+
+	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent | self clickbox ]
 ]
