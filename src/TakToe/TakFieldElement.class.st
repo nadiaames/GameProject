@@ -87,7 +87,7 @@ TakFieldElement >> board: aTBoard [
 	self layout columnCount: board grid width.
 	board grid do: [ :aBox |
 		| boxElement |
-		boxElement := (TBoxElement box: aBox) board: aTBoard.
+		boxElement := (TakBoxElement  box: aBox ) board: aTBoard.
 		self addChild: boxElement ]
 ]
 

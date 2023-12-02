@@ -1,9 +1,6 @@
 Class {
 	#name : #TakBoard,
 	#superclass : #MygBoard,
-	#instVars : [
-		'magnifier'
-	],
 	#category : #'TakToe-Core'
 }
 
@@ -34,7 +31,7 @@ TakBoard class >> newSquaredSize: aNumber [
 		  configureGrid: (CTNewArray2D
 				   width: aNumber
 				   height: aNumber
-				   tabulate: [ :x :y | TakSetBox1  new])
+				   tabulate: [ :x :y | TakSetBoxEmpty  new])
 ]
 
 { #category : #testing }
@@ -86,16 +83,6 @@ TakBoard >> endGame [
 TakBoard >> isFull [ 
 	
 	^ (self grid contents anySatisfy: [ :each | each value isNil ]) not
-]
-
-{ #category : #accessing }
-TakBoard >> magnifier [ 
-	^ magnifier
-]
-
-{ #category : #accessing }
-TakBoard >> magnifier: aNumber [
-	magnifier := aNumber 
 ]
 
 { #category : #accessing }

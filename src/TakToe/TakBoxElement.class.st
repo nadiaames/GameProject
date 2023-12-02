@@ -6,16 +6,21 @@ Class {
 		'board'
 	],
 	#classVars : [
-		'ColorDictionary',
-		'icons'
+		'ColorDictionary'
 	],
 	#category : #'TakToe-UI'
 }
 
+{ #category : #accessing }
+TakBoxElement class >> box: aMBox [
+
+	^ self new box: aMBox
+]
+
 { #category : #'class initialization' }
 TakBoxElement class >> initialize [ 
 
-	ColorDictionary := { 0 -> Color red.
+	ColorDictionary := { 0 -> Color orange.
 	1 -> Color black.
 	nil -> Color lightGray } asDictionary 
 
@@ -41,14 +46,19 @@ TakBoxElement >> box [
 { #category : #accessing }
 TakBoxElement >> box: aTBox [
 	box := aTBox.
+	self changeColor 
 
 ]
 
 { #category : #public }
+TakBoxElement >> changeColor [
+	self background: (self colorDictionary at: self box value)
+]
+
+{ #category : #public }
 TakBoxElement >> clickbox [
-	self box isTakEmptyBox 
-		ifTrue: [  ]
-		ifFalse: [  ]
+			self board clickOnBox: self box.
+			self changeColor
 ]
 
 { #category : #'as yet unclassified' }
