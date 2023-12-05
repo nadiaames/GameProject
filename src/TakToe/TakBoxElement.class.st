@@ -20,9 +20,12 @@ TakBoxElement class >> box: aMBox [
 { #category : #'class initialization' }
 TakBoxElement class >> initialize [ 
 
-	ColorDictionary := { 0 -> Color orange.
-	1 -> Color black.
-	nil -> Color lightGray } asDictionary 
+	ColorDictionary := { 
+	nil -> Color lightGray .
+	0 -> Color orange.
+	1 -> Color black.} asDictionary 
+	
+	
 
 ]
 
@@ -52,13 +55,36 @@ TakBoxElement >> box: aTBox [
 
 { #category : #public }
 TakBoxElement >> changeColor [
-	self background: (self colorDictionary at: self box value)
+"	self background: (self colorDictionary at: self box value).
+	
+"
+    
+    self background: (ColorDictionary at: self box value ifAbsent: [Color lightGray]).
 ]
 
 { #category : #public }
 TakBoxElement >> clickbox [
-			self board clickOnBox: self box.
-			self changeColor
+		
+    "Check if the box has already been clicked"
+    self box value ifNil: [
+        "Only allow clicking on an empty box"
+        self board clickOnBox: self box.
+        self changeColor
+    ].
+"
+    | currentValue nextColor |
+    ""Check if the box has already been clicked""
+    currentValue := self box value.
+    currentValue ifNil: [
+        ""Only allow clicking on an empty box""
+        self board clickOnBox: self box.
+        
+        ""Determine the color for the next click""
+        nextColor := (currentValue isNil or: [currentValue = Color black]) ifTrue: [Color orange] ifFalse: [Color black].
+        
+        self box value: (TakBox valueDictionary at: nextColor).
+        self changeColor.
+    ]."
 ]
 
 { #category : #'as yet unclassified' }
