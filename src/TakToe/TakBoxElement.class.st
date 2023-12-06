@@ -60,6 +60,8 @@ TakBoxElement >> changeColor [
 "
     
     self background: (ColorDictionary at: self box value ifAbsent: [Color lightGray]).
+
+
 ]
 
 { #category : #public }
@@ -71,6 +73,7 @@ TakBoxElement >> clickbox [
         self board clickOnBox: self box.
         self changeColor
     ].
+
 "
     | currentValue nextColor |
     ""Check if the box has already been clicked""
