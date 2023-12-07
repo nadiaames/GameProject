@@ -97,4 +97,30 @@ TakFieldElement >> initialize [
 	super initialize.
 	self background: (BlBackground paint: Color veryVeryLightGray ).
 	
+	self addEventHandlerOn: BlKeyDownEvent
+		do: [ :anEvent | self spacebarEvent: anEvent ];
+		requestFocus
+]
+
+{ #category : #accessing }
+TakFieldElement >> resetGame [ 
+
+    "Reset the game by generating a new empty board"
+    | newBoard |
+    newBoard := TakBoard generateWithSize: 3.  "Adjust the size as needed"
+    self board: newBoard.
+    self removeChildren.
+    newBoard grid do: [ :aBox |
+        | boxElement |
+        boxElement := (TakBoxElement box: aBox) board: newBoard.
+        self addChild: boxElement.
+    ].
+]
+
+{ #category : #'as yet unclassified' }
+TakFieldElement >> spacebarEvent: anEvent [ 
+    (anEvent key name = #SPACE) ifTrue: [
+        self resetGame.
+        ^ self.
+    ].
 ]
