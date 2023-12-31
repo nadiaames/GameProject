@@ -94,8 +94,8 @@ TakFieldElement >> board: aTBoard [
 { #category : #accessing }
 TakFieldElement >> initialize [
 
-	super initialize.
-	self background: (BlBackground paint: Color veryVeryLightGray ).
+	super initialize. 
+	self background: (BlBackground paint: Color veryLightGray ).
 	
 	self addEventHandlerOn: BlKeyDownEvent
 		do: [ :anEvent | self spacebarEvent: anEvent ];
@@ -107,7 +107,7 @@ TakFieldElement >> resetGame [
 
     "Reset the game by generating a new empty board"
     | newBoard |
-    newBoard := TakBoard generateWithSize: 3.  "Adjust the size as needed"
+    newBoard := TakBoard generateWithSize: 3. 
     self board: newBoard.
     self removeChildren.
     newBoard grid do: [ :aBox |

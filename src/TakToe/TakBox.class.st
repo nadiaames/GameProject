@@ -10,15 +10,6 @@ Class {
 	#category : #'TakToe-Core'
 }
 
-{ #category : #'class initialization' }
-TakBox class >> initialize [
-	"self initialize"
-	ValueDictionary := {
-		                   (0 -> 1).
-		                   (1 -> nil).
-		                   (nil -> 0) } asDictionary
-]
-
 { #category : #accessing }
 TakBox class >> valueDictionary [ 
 
