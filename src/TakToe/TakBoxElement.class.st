@@ -5,9 +5,6 @@ Class {
 		'box',
 		'board'
 	],
-	#classVars : [
-		'ColorDictionary'
-	],
 	#category : #'TakToe-UI'
 }
 
@@ -77,12 +74,6 @@ TakBoxElement >> clickbox [
         self box value: nextColor.
         self changeColor.
 ].
-]
-
-{ #category : #'as yet unclassified' }
-TakBoxElement >> colorDictionary [
-
-	^ ColorDictionary
 ]
 
 { #category : #public }
