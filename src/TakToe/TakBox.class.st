@@ -4,23 +4,8 @@ Class {
 	#instVars : [
 		'value'
 	],
-	#classVars : [
-		'ValueDictionary'
-	],
 	#category : #'TakToe-Core'
 }
-
-{ #category : #accessing }
-TakBox class >> valueDictionary [ 
-
-	^ ValueDictionary 
-]
-
-{ #category : #accessing }
-TakBox >> configureValue [
-	
-	self value: (self valueDictionary at: self value).
-]
 
 { #category : #evaluating }
 TakBox >> value [ 
@@ -31,10 +16,4 @@ TakBox >> value [
 TakBox >> value: aNumber [
 
 	value := aNumber
-]
-
-{ #category : #accessing }
-TakBox >> valueDictionary [
-
-	^ ValueDictionary
 ]

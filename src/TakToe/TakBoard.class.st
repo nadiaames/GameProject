@@ -1,6 +1,10 @@
 Class {
 	#name : #TakBoard,
 	#superclass : #MygBoard,
+	#instVars : [
+		'currentColor',
+		'winner'
+	],
 	#category : #'TakToe-Core'
 }
 
@@ -35,110 +39,82 @@ TakBoard class >> newSquaredSize: aNumber [
 ]
 
 { #category : #testing }
-TakBoard >> checkColumn: aColumn [ 
-    "Check if a column contains three boxes with the same color"
-    | uniqueColors |
-    uniqueColors := (aColumn select: [ :box | box value notNil ] thenCollect: [ :box | box value ]).
+TakBoard >> checkColumn: columnIndex [ 
+    | firstValue |
+    firstValue := (self grid atColumn: columnIndex atRow: 1) value.
 
-    "If there is exactly one unique color, return it; otherwise, return nil"
-    ^ uniqueColors size = 1 ifTrue: [ uniqueColors first ] ifFalse: [ nil ].
-
+    "Check if all values in the column match the first value"
+    ^ ((2 to: self grid height) allSatisfy: [ :row | 
+        (self grid atColumn: columnIndex atRow: row) value = firstValue ]) ifTrue: [
+            firstValue "Return the color if all values in the column match"
+        ] ifFalse: [
+            nil "Return nil if the column has mixed colors"
+        ].
 ]
 
-{ #category : #testing }
-TakBoard >> checkDiagonalFrom: startPoint to: endPoint [ 
-    "Check if a diagonal from startPoint to endPoint contains three boxes with the same color"
-    | uniqueColors diagonalBoxes |
-    diagonalBoxes := OrderedCollection new.
+{ #category : #actions }
+TakBoard >> checkForWinnerAfterMoveAtRow: rowIndex column: columnIndex [ 
+  | rowWinner columnWinner |
+    
+    rowWinner := self checkRow: rowIndex.
+    columnWinner := self checkColumn: columnIndex.
 
-    (startPoint to: endPoint) do: [ :point |
-        diagonalBoxes add: (self grid atColumn: point x atRow: point y).
+    " Check if there's a winner"
+    (rowWinner notNil and: [rowWinner = columnWinner]) ifTrue: [
+        ^ self isWinner: rowWinner.
+    ] ifFalse: [
+        " Check if the board is full to declare a draw "
+        (self isFull) ifTrue: [
+            ^ self isWinner: nil. " Indicate a draw when the board is full and no winner "
+        ].
     ].
 
-    uniqueColors := (diagonalBoxes select: [ :box | box value notNil ] thenCollect: [ :box | box value ]).
-
-    "If there is exactly one unique color, return it; otherwise, return nil"
-    ^ uniqueColors size = 1 ifTrue: [ uniqueColors first ] ifFalse: [ nil ].
-
+    ^ nil.
 ]
 
 { #category : #testing }
-TakBoard >> checkIfFinished [
- | winnerColor | 
+TakBoard >> checkRow: rowIndex [ 
 
-    (self isFull ) ifTrue: [ self endGame ].
+    | firstValue |
+    firstValue := (self grid atColumn: 1 atRow: rowIndex) value.
 
-    (self grid rowsDo: [ :row |
-        winnerColor := self checkRow: row. 
-        winnerColor ifNotNil: [^ self isWinner: winnerColor].
-    ]).
-    
-    (self grid columnsDo: [ :column |
-        winnerColor := self checkColumn: column.
-        winnerColor ifNotNil: [^ self isWinner: winnerColor].
-    ]).
-    
-    winnerColor := self checkDiagonalFrom: 1@1 to: (self grid width)@(self grid height).
-    winnerColor ifNotNil: [^ self isWinner: winnerColor].
-    
-    winnerColor := self checkDiagonalFrom: (self grid width)@1 to: 1@(self grid height).
-    winnerColor ifNotNil: [^ self isWinner: winnerColor].
-    
-]
+    "Check if all values in the row match the first value"
+    ^ ((2 to: self grid width) allSatisfy: [ :col | 
+        (self grid atColumn: col atRow: rowIndex) value = firstValue ]) ifTrue: [
+            firstValue "Return the color if all values in the row match"
+        ] ifFalse: [
+            nil "Return nil if the row has mixed colors"
+        ].
 
-{ #category : #testing }
-TakBoard >> checkRow: aRow [ 
-    "Check if a row contains three boxes with the same color"
-    | uniqueColors |
-    uniqueColors := (aRow select: [ :box | box value notNil ] thenCollect: [ :box | box value ]).
-
-    "If there is exactly one unique color, return it; otherwise, return nil"
-    ^ uniqueColors size = 1 ifTrue: [ uniqueColors first ] ifFalse: [ nil ].
 
 ]
 
 { #category : #'player api' }
 TakBoard >> clickOnBox: aTBox [
 
- | box currentValue nextValue |
-    box := self grid atColumn: aTBox position x atRow: aTBox position y.
-    currentValue := box value.
-    
-    "Toggle box value between 0 and 1"
-    nextValue := currentValue ifNil: [0] ifNotNil: [currentValue = 0 ifTrue: [1] ifFalse: [0]].
-    
-    "Update box value and configure"
-    box value: nextValue.
-    box configureValue.
-    self checkIfFinished.
+    | rowIndex columnIndex winnerColor |
+    rowIndex := aTBox position y.
+    columnIndex := aTBox position x.
+
+    "Check for winner in the row and column after the move"
+    winnerColor := self checkForWinnerAfterMoveAtRow: rowIndex column: columnIndex.
+    winnerColor ifNotNil: [^ self isWinner: winnerColor].
+
+    ^ nil
+
+
+
+
+
+
 ]
 
 { #category : #actions }
-TakBoard >> endGame [
+TakBoard >> initialize [
+super initialize.
+    currentColor := nil.
+    winner := nil.
 
-	| container space |
-	container := BlElement new
-		             background: Color black ;
-		             layout: BlFrameLayout new;
-		             constraintsDo: [ :c |
-			             c horizontal matchParent.
-			             c vertical matchParent ].
-
-	container addChild: ((BlTextElement new text: ('It''s a draw! No Winner. Press space to reset the game.' asRopedText
-                    fontName: 'Phosphate'; bold;
-				   foreground: Color orange;
-				   fontSize: 30)) constraintsDo: [ :c |
-			 c frame horizontal alignCenter.
-			 c frame vertical alignCenter.]).
-
-
-	space := BlSpace new.
-	space root addChild: container.
-	space
-		pulse;
-		extent: 700 @ 200;
-		show.
-	^ space
 ]
 
 { #category : #testing }
@@ -149,22 +125,29 @@ TakBoard >> isFull [
 
 { #category : #testing }
 TakBoard >> isWinner: winnerColor [ 
-    "Show the endGame container with the winner color (or nil if it's a draw)"
     | container space |
+    
+    winner := winnerColor = 0 ifTrue: ['Orange'] ifFalse: ['Black'].
     container := BlElement new
-                    background: Color black;
+                    background: Color gray;
                     layout: BlFrameLayout new;
                     constraintsDo: [ :c |
                         c horizontal matchParent.
                         c vertical matchParent ].
 
-    "Append the winner message if there's a winner"
     (winnerColor notNil and: [winnerColor isInteger]) ifTrue: [
-        container addChild: ((BlTextElement new text: ('Player  Wins!'
+        container addChild: ((BlTextElement new text: ("'Player',winner,' Wins! Press space to reset the game.'" 'Player Wins! Press space to reset the game.'
+                        asRopedText
+                        foreground: Color black;
+                        fontSize: 20)) constraintsDo: [ :c |
+                    c frame horizontal alignCenter.
+                    c frame vertical alignCenter ]).
+    ] ifFalse: [
+        container addChild: ((BlTextElement new text: ('It''s a draw! No Winner. Press space to reset the game.'
                         asRopedText
                         fontName: 'Phosphate'; bold;
-                        foreground: Color white;
-                        fontSize: 30)) constraintsDo: [ :c |
+                        foreground: Color black;
+                        fontSize: 20)) constraintsDo: [ :c |
                     c frame horizontal alignCenter.
                     c frame vertical alignCenter ]).
     ].
@@ -173,7 +156,7 @@ TakBoard >> isWinner: winnerColor [
     space root addChild: container.
     space
         pulse;
-        extent: 300 @ 300;
+        extent: 500 @ 150;
         show.
     ^ space
 ]
