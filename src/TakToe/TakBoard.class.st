@@ -194,10 +194,9 @@ TakBoard >> isFull [
 
 { #category : #testing }
 TakBoard >> isWinner: winnerColor [ 
-
-     | container space |
-
-    winner :=  winnerColor = 0  ifTrue: ['ORANGE'] ifFalse: ['BLACK'].
+    | container space |
+    
+    winner := winnerColor = 0 ifTrue: ['ORANGE'] ifFalse: ['BLACK'].
     container := BlElement new
                     background: Color gray;
                     layout: BlFrameLayout new;
@@ -206,11 +205,11 @@ TakBoard >> isWinner: winnerColor [
                         c vertical matchParent ].
 
     (winnerColor notNil and: [winnerColor isInteger]) ifTrue: [
-        container addChild: ((BlTextElement new text: ('Color ', winner printString, ' wins! Press space to reset the game.'
+        container addChild: ((BlTextElement new text: ('Color', winner printString, ' wins! Press space to reset the game.'
                         asRopedText
-                        fontName: 'Phosphate'; bold;
-                        foreground: Color black;
-                        fontSize: 20)) constraintsDo: [ :c |
+                            fontName: 'Phosphate'; bold;
+                            foreground: Color black;
+                            fontSize: 20)) constraintsDo: [ :c |
                     c frame horizontal alignCenter.
                     c frame vertical alignCenter ]).
     ] ifFalse: [
@@ -229,7 +228,7 @@ TakBoard >> isWinner: winnerColor [
         pulse;
         extent: 500 @ 150;
         show.
-    ^ space.
+    ^ space
 ]
 
 { #category : #accessing }

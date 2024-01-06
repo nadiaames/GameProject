@@ -75,11 +75,10 @@ TakBoxElement >> clickbox [
 { #category : #public }
 TakBoxElement >> initialize [
 	super initialize.
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: 50).
 	self constraintsDo: [ :aLayoutConstraints |
+				aLayoutConstraints horizontal matchParent.
+				aLayoutConstraints vertical matchParent ].
 		
-		aLayoutConstraints horizontal matchParent.
-		
-		aLayoutConstraints vertical matchParent ].
-	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent | self clickbox ]
+	self geometry: (BlRoundedRectangleGeometry cornerRadius: 100).
+	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent | self clickbox ].
 ]
