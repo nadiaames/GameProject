@@ -22,7 +22,13 @@ TakToe is a strategic game that combines elements of Takuzu and Tic Tac Toe. It 
 
 ### Usage
 
-1. Launch the game with different grid sizes:
+1. Launch the game:
+
+   ```
+   TakToe open.
+   ```
+
+or with different grid sizes:
 
    ```
    TakFieldElement launchSmall.
