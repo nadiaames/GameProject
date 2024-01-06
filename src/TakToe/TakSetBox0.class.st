@@ -12,6 +12,4 @@ TakSetBox0 class >> textualMapCharacter [
 { #category : #initialization }
 TakSetBox0 >> initialize [
 
-	super initialize.
-	value := 0
 ]

@@ -5,6 +5,10 @@ Class {
 		'box',
 		'board'
 	],
+	#classVars : [
+		'currentColor',
+		'winner'
+	],
 	#category : #'TakToe-UI'
 }
 
@@ -54,36 +58,28 @@ TakBoxElement >> changeColor [
 { #category : #public }
 TakBoxElement >> clickbox [
 		
-    "Check if the box has already been clicked"
-"    self box value ifNil: [
-        self board clickOnBox: self box.
-        self changeColor
-    ]."
-  
-   | currentValue nextColor |
+    | currentValue nextColor |
     currentValue := self box value.
     
-    "Check if the box has already been clicked"
     currentValue ifNil: [
-        "Only allow clicking on an empty box"
         self board clickOnBox: self box.
         
-        "Determine the color for the next click"
-        nextColor := (currentValue isNil or: [currentValue = 0]) ifTrue: [1] ifFalse: [0].
+        nextColor := (currentColor isNil or: [currentColor = 0]) ifTrue: [1] ifFalse: [0].
         
         self box value: nextColor.
         self changeColor.
-].
+        currentColor := nextColor. 
+    ].
 ]
 
 { #category : #public }
 TakBoxElement >> initialize [
 	super initialize.
-	
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
+	self geometry: (BlRoundedRectangleGeometry cornerRadius: 50).
 	self constraintsDo: [ :aLayoutConstraints |
+		
 		aLayoutConstraints horizontal matchParent.
+		
 		aLayoutConstraints vertical matchParent ].
-
 	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent | self clickbox ]
 ]
