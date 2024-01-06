@@ -28,13 +28,13 @@ TakToe is a strategic game that combines elements of Takuzu and Tic Tac Toe. It 
    TakToe open.
    ```
 
-or with different grid sizes:
+   or with different grid sizes:
 
-   ```
-   TakFieldElement launchSmall.
-   TakFieldElement launchRegular.
-   TakFieldElement launchLarge.
-   ```
+      ```
+      TakFieldElement launchSmall.
+      TakFieldElement launchRegular.
+      TakFieldElement launchLarge.
+      ```
 
 2. Click on the boxes to make moves.
 
