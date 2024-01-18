@@ -178,14 +178,6 @@ TakBoard >> clickOnBox: aTBox [
 
 ]
 
-{ #category : #actions }
-TakBoard >> initialize [
-super initialize.
-    currentColor := nil.
-    winner := nil.
-
-]
-
 { #category : #testing }
 TakBoard >> isFull [ 
 	
