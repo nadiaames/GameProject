@@ -84,7 +84,7 @@ TakToe class >> menuPlay [
 
 { #category : #'instance creation' }
 TakToe class >> open [
-
+	<script>
 	| space playMenu helpMenu title bar|
 	
 	playMenu := self menuPlay.

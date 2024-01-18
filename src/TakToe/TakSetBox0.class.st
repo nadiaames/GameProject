@@ -8,8 +8,3 @@ Class {
 TakSetBox0 class >> textualMapCharacter [
 	^ $0
 ]
-
-{ #category : #initialization }
-TakSetBox0 >> initialize [
-
-]

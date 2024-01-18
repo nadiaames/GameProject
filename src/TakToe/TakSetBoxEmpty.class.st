@@ -15,10 +15,3 @@ TakSetBoxEmpty >> clickOnEmpty [
 
 	self value: (value ifNil: [ 0 ] ifNotNil: [])
 ]
-
-{ #category : #initialization }
-TakSetBoxEmpty >> initialize [
-
-	super initialize.
-	value := nil
-]
